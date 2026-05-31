@@ -67,7 +67,7 @@ FunctionProfiler/
 
 ## Requirements
 
-### macOS
+### macOS (NEW)
 
 Install dependencies using Homebrew:
 
