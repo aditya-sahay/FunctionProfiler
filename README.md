@@ -4,34 +4,103 @@
 
 ### Overview
 
-The Function-Level Profiling Instrumentor is a compiler-based tool that analyzes C source code, constructs an Abstract Syntax Tree (AST), builds a Symbol Table, and automatically inserts profiling hooks into functions. The generated instrumented code can be used to measure function execution statistics such as call counts and execution time.
+The Function-Level Profiling Instrumentor is a compiler-based tool that analyzes C source code, constructs an Abstract Syntax Tree (AST), builds a Symbol Table, and automatically inserts profiling hooks into functions. The generated instrumented code can be used to measure function execution statistics such as function calls and execution time.
 
-This project demonstrates key concepts of Compiler Design including lexical analysis, parsing, syntax tree construction, symbol table management, source-to-source transformation, and runtime profiling.
+The project demonstrates core Compiler Design concepts including Lexical Analysis, Parsing, AST Construction, Symbol Table Management, Source-to-Source Transformation, Code Instrumentation, Runtime Profiling, and a modern React-based visualization interface.
 
 ---
 
-## Features
+# Features
+
+### Compiler Components
 
 * Lexical Analysis using Flex
 * Syntax Analysis using Bison
 * Abstract Syntax Tree (AST) Construction
 * Symbol Table Generation
-* Function-Level Code Instrumentation
+* Function-Level Instrumentation
 * Runtime Profiling Support
 * Profiling Report Generation
-* Support for Recursive Functions
-* Support for Control Flow Statements
 
-  * if-else
-  * while
-  * for
+### Language Support
+
+* Function Definitions
+* Function Parameters
+* Variable Declarations
+* Assignments
+* Arithmetic Expressions
+* Comparison Expressions
+* Function Calls
+* Return Statements
+* if-else Statements
+* while Loops
+* for Loops
+* Recursive Function Calls
+
+### Frontend Features
+
+* React-based User Interface
+* Drag-and-Drop / File Upload Support
+* Project Information Dashboard
+* Live Compiler Output Display
+* Backend Integration with Compiler
+* Terminal-style Analysis View
 
 ---
 
-## Project Structure
+# Project Architecture
 
+```text
++------------------+
+| React Frontend   |
++--------+---------+
+         |
+         | Upload C File
+         v
++------------------+
+| Node.js Backend  |
+| Express Server   |
++--------+---------+
+         |
+         | Execute
+         v
++------------------+
+| Compiler Module  |
+| Flex + Bison     |
++--------+---------+
+         |
+         v
++------------------+
+| AST Construction |
++------------------+
+
++------------------+
+| Symbol Table     |
++------------------+
+
++------------------+
+| Instrumentation  |
++------------------+
+
++------------------+
+| Runtime Profiler |
++------------------+
+
+         |
+         v
+
+ Profiling Report
 ```
+
+---
+
+# Project Structure
+
+```text
 FunctionProfiler/
+│
+├── compiler/
+│   └── profiler_compiler
 │
 ├── lexer.l
 ├── parser.y
@@ -57,6 +126,16 @@ FunctionProfiler/
 │   ├── report.h
 │   └── report.cpp
 │
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   └── uploads/
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
 └── tests/
     ├── sample1.c
     ├── sample2.c
@@ -65,89 +144,230 @@ FunctionProfiler/
 
 ---
 
-## Requirements
+# Requirements
 
-### macOS (NEW)
+## Windows
 
-Install dependencies using Homebrew:
+### Install
+
+* Flex for Windows
+* Bison for Windows
+* MinGW-w64 (G++)
+* Node.js (LTS Version)
+
+Verify:
 
 ```bash
-brew install flex bison
-```
-
-### Linux
-
-```bash
-sudo apt install flex bison g++
+flex --version
+bison --version
+g++ --version
+node -v
+npm -v
 ```
 
 ---
 
-## Building the Project
-
-Compile the entire project:
+## Linux (Ubuntu/Debian)
 
 ```bash
-make
+sudo apt update
+
+sudo apt install flex bison g++ make nodejs npm
 ```
 
-Clean generated files:
+Verify:
+
+```bash
+flex --version
+bison --version
+g++ --version
+node -v
+npm -v
+```
+
+---
+
+## macOS
+
+Install Homebrew first if required.
+
+```bash
+brew install flex
+brew install bison
+brew install node
+```
+
+Verify:
+
+```bash
+flex --version
+bison --version
+g++ --version
+node -v
+npm -v
+```
+
+---
+
+# Building the Compiler
+
+## Clean
 
 ```bash
 make clean
 ```
 
-Rebuild:
+## Build
 
 ```bash
-make rebuild
+make
+```
+
+## Rebuild
+
+```bash
+make clean
+make
+```
+
+Successful build generates:
+
+```text
+compiler/profiler_compiler
 ```
 
 ---
 
-## Running the Project
+# Running the Compiler
 
-### Sample Test 1
+## Sample Test 1
 
 ```bash
-./profiler_compiler < tests/sample1.c
+./compiler/profiler_compiler < tests/sample1.c
 ```
 
-### Sample Test 2
+## Sample Test 2
 
 ```bash
-./profiler_compiler < tests/sample2.c
+./compiler/profiler_compiler < tests/sample2.c
 ```
 
-### Recursive Function Test
+## Recursive Function Test
 
 ```bash
-./profiler_compiler < tests/recursive.c
+./compiler/profiler_compiler < tests/recursive.c
 ```
 
 ---
 
-## Sample Input
+# Running the Backend
 
-```c
-int add(int a, int b)
-{
-    int result = a + b;
-    return result;
-}
+Move into backend directory:
 
-int main()
-{
-    int x = add(10, 20);
-    return x;
-}
+```bash
+cd backend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start server:
+
+```bash
+node server.js
+```
+
+Expected Output:
+
+```text
+Server running on port 5000
+```
+
+Backend URL:
+
+```text
+http://localhost:5000
 ```
 
 ---
 
-## Sample AST Output
+# Running the Frontend
 
+Move into frontend directory:
+
+```bash
+cd frontend
 ```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start React application:
+
+```bash
+npm run dev
+```
+
+Expected Output:
+
+```text
+Local:
+http://localhost:5173
+```
+
+Open the URL in a browser.
+
+---
+
+# Using the Application
+
+1. Build the compiler using:
+
+```bash
+make
+```
+
+2. Start backend:
+
+```bash
+node server.js
+```
+
+3. Start frontend:
+
+```bash
+npm run dev
+```
+
+4. Open:
+
+```text
+http://localhost:5173
+```
+
+5. Upload a C source file.
+
+6. The frontend sends the file to the backend.
+
+7. The backend executes:
+
+```text
+compiler/profiler_compiler
+```
+
+8. Compiler output is displayed directly in the browser.
+
+---
+
+# Sample AST Output
+
+```text
 ===== AST =====
 
 Function: add Return Type: int
@@ -165,11 +385,13 @@ Function: main Return Type: int
 
 ---
 
-## Compiler Design Concepts Used
+# Compiler Design Concepts Used
 
-### Lexical Analysis
+## Lexical Analysis
 
-The lexer identifies tokens such as:
+Performed using Flex.
+
+Recognizes:
 
 * Keywords
 * Identifiers
@@ -177,69 +399,96 @@ The lexer identifies tokens such as:
 * Operators
 * Delimiters
 
-### Syntax Analysis
+---
 
-The parser validates program structure using context-free grammar rules.
+## Syntax Analysis
 
-### Abstract Syntax Tree (AST)
+Performed using Bison.
 
-The AST represents the hierarchical structure of the source program.
+Validates program structure using Context-Free Grammar (CFG).
 
-### Symbol Table
+---
 
-Stores information about:
+## Abstract Syntax Tree (AST)
+
+Represents the hierarchical structure of source code.
+
+Stores:
+
+* Functions
+* Parameters
+* Statements
+* Expressions
+
+---
+
+## Symbol Table
+
+Stores information regarding:
 
 * Functions
 * Variables
 * Data Types
 * Parameters
 
-### Code Instrumentation
+---
 
-Profiling hooks are inserted automatically at function entry and exit points.
+## Code Instrumentation
 
-### Runtime Profiling
+Automatically inserts:
 
-Execution statistics are collected during program execution and summarized in a profiling report.
+```c
+profiler_start();
+profiler_end();
+```
+
+into generated code.
 
 ---
 
-## Supported Language Constructs
+## Runtime Profiling
 
-* Function Definitions
-* Function Parameters
-* Variable Declarations
-* Assignments
-* Arithmetic Expressions
-* Comparison Expressions
-* Function Calls
-* Return Statements
-* if-else Statements
-* while Loops
-* for Loops
-* Recursive Function Calls
+Collects:
+
+* Function Call Count
+* Execution Statistics
+* Recursive Function Data
 
 ---
 
-## Future Enhancements
+# Current Limitations
 
-* Full C Language Support
-* Nested Scope Symbol Tables
+* Partial C Language Support
+* No Pointer Handling
+* No Arrays
+* No Structs
+* No Nested Symbol Tables
+* No Semantic Type Checking
+
+---
+
+# Future Enhancements
+
+* Full ANSI C Support
+* Semantic Analysis Phase
+* Intermediate Code Generation
+* Control Flow Graph (CFG)
+* Data Flow Analysis
 * Optimization Passes
-* CFG (Control Flow Graph) Generation
-* Enhanced Profiling Metrics
-* Graphical Profiling Reports
+* Interactive Profiling Dashboard
+* Profiling Graph Visualizations
+* Execution Timeline Charts
 
 ---
 
-## Author
+# Authors
 
-Aditya Sahay
+### Aditya Sahay
 
-Aditya Menia
+### Aditya Menia
 
-3rd year project
-B.Tech Computer Science Engineering
-RV College Of Engineering
+B.Tech Computer Science and Engineering
 
-Compiler Design Project
+RV College of Engineering
+
+Compiler Design Mini Project
